@@ -1,0 +1,353 @@
+body {
+  font-family: "Lato","Geneva CY","Lucida Grande","Arial Unicode MS","Helvetica Neue","Helvetica","Arial",sans-serif;
+}
+
+.header_container {
+  /*border-style: solid;
+  border-color: black;
+  border-width: .1px;*/
+  /*position: absolute;
+  top: 0;
+  right: 0;*/
+  float: right;
+  height: 8vh;
+  width: 76vw;
+  margin: 0;
+  padding: 10px 14px;
+  background-color: #478F8A;
+  color: white;
+  font-size: 20px;
+  font-weight: 200;
+  line-height: 0;
+}
+
+.list_container{
+  width: 24vw;
+  height: 100vh;
+  /*border-style: solid;
+  border-color: black;
+  border-width: .1px;*/
+  overflow: scroll;
+  font-size: 14px;
+}
+
+.mini_nav{
+  width: 24vw;
+  height: 8vh;
+  /*border-style: solid;
+  border-color: black;
+  border-width: .1px;*/
+  margin-bottom: .1px;
+  background-color: #3F7E7A;
+}
+
+.list_tab{
+  width: 24vw;
+  height: 38px;
+  line-height: 38px;
+  color: #262626;
+  align-items: center;
+  padding-right: 6px;
+  padding-left: 15.5px;
+  font-family: "Lato","Geneva CY","Lucida Grande","Arial Unicode MS","Helvetica Neue","Helvetica","Arial",sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+#avatar{
+  height: 32px;
+  width: 32px;
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 1;
+  margin-top: 8px;
+  margin-left: 6px;
+}
+
+#user_name_list_container{
+  margin-left: 12px;
+  display: inline-block;
+  line-height: 5px;
+  height: 5px;
+  vertical-align: text-bottom;
+  font-size: 16px;
+  padding-top: 3.7px;
+}
+
+.arrow_custom{
+  /*float: right;*/
+  line-height: 5px;
+  height: 5px;
+  vertical-align: text-bottom;
+  padding-bottom: 20px;
+  margin-left: 5px;
+}
+
+.fa-bell{
+  float: right;
+  margin-top: 20px;
+  margin-right: 20px;
+}
+
+#create_list_button{
+  color: #328ad6;
+  padding-top: 3px;
+  vertical-align: text-bottom;
+  line-height: 5px;
+  margin-left: 42px;
+  font-size: 15px;
+  font-weight: 200;
+  display: inline-block;
+}
+
+.fa-plus{
+  color: #328ad6;
+  /*margin-top: 10px;*/
+  /*padding-top: 3px;
+  vertical-align: text-bottom;*/
+  position: absolute;
+  bottom: 12px;
+  margin-left: 15px;
+  line-height: 5px;
+  display: inline-block;
+}
+
+#create_list_button_container{
+  border-top: 1px solid rgba(0,0,0,0.1);
+  background: #f7f7f7;
+  display: inline-block;
+  height: 42px;
+  font-size: 15px;
+  cursor: pointer;
+  width: 30vw;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+/*.circle-plus {
+  height:6em;
+  width:6em;
+  font-size:.5em ;
+  display: inline-block;
+}
+.circle-plus .circle {
+  position: relative;
+  width: 4.5em;
+  height: 4.5em;
+  border-radius: 100%;
+  border: solid .8em #DFDAD7;
+}
+.circle-plus .circle .horizontal {
+  position: absolute;
+  background-color: #DFDAD7;
+  width: 2.4em;
+  height: .7em;
+  top: 1.9em;
+  left: 1.05em;
+}
+.circle-plus .circle .vertical {
+  position: absolute;
+  background-color: #DFDAD7;
+  width: .7em;
+  height: 2.4em;
+  top: 1.05em;
+  left: 1.9em;
+}*/
+
+#create_list_popup{
+  text-align: center;
+  background-color: #fff;
+  color: black;
+  width: 460px;
+  height: 200px;
+  position: absolute;
+  left: 36%;
+  top: 20%;
+  z-index: 20;
+  border-color: #fff;
+  border-style: solid;
+  border-radius: 3px;
+}
+
+#list_name_input{
+  width: 80%;
+  display: block;
+  margin-left: 10%;
+}
+
+#cancel_button{
+  display: inline-block;
+  float: right;
+  width: 130px;
+  height: 30px;
+  background: #fafafa;
+  border: none;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px #d6d6d6;
+  color: #737272;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 13px;
+  text-align: center;
+  padding: 8px 12px;
+}
+
+#save_button {
+  display: inline-block;
+  float: right;
+  width: 130px;
+  height: 30px;
+  background-color: #328ad6;
+  border-color: #328ad6;
+  border: none;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px #328ad6;
+  color: #fff;
+  /*opacity: .5*/
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 13px;
+  margin-left: 10px;
+  margin-right: 14%;
+}
+
+#list_form{
+  text-align: center;
+}
+
+.overlay{
+  background-color: grey;
+  opacity: .3;
+}
+
+#popup_username{
+  font-size: 13px;
+  margin-left: 8px;
+}
+
+#popup_email{
+  font-size: 10px;
+  margin-left: 69px;
+  margin-bottom: 13px;
+}
+
+#popup_avatar{
+  height: 32px;
+  width: 32px;
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 1;
+  float: left;
+  margin-left: 35px;
+}
+
+.list_name_tab{
+  display: inline-block;
+  margin-left: 15px;
+}
+
+#list_name_header{
+  /*line-height: 5px;
+  height: 5px;
+  vertical-align: text-bottom;
+  display: inline-block;*/
+  margin-left: 5px;
+}
+
+.header_bars{
+  display: inline-block;
+  color: white;
+  margin-left: 12px;
+  margin-top: 20px;
+}
+
+.header_magnify{
+  display: inline-block;
+  color: white;
+  margin-right: 18px;
+  margin-top: 23px;
+  float: right;
+}
+
+#active_list_container{
+  background-color: #81BCB8;
+  height: 100%;
+  width: 100%;
+  height: 92vh;
+  width: 76vw;
+  display: inline-block;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+input[id="task_name_input"]::-webkit-input-placeholder {
+  color: white;
+  /*padding-left: 12px;*/
+}
+
+input[name="task_name_input"]{
+  color: white;
+  margin-left: 12px;
+}
+
+#monster_png{
+  height: 40vh;
+  width: auto;
+  position: absolute;
+  bottom: 0;
+}
+
+.task_name_tab{
+  height: 47px;
+  width: 74vw;
+  background: #fff;
+  list-style: none;
+  height: 46px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  padding-left: 4px;
+  padding-right: 4px;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -o-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  position: relative;
+  margin: 0 auto;
+}
+
+.task_tab_container{
+  margin-top: 2px;
+}
+
+.fa-square-o{
+  margin-right: 20px;
+  margin-left: 15px;
+}
+
+#task_button{
+  background-color: white;
+  border-color: white;
+  border-radius: 18px;
+  position: absolute;
+  top: 8px;
+  right: 20px;
+}
+
+#new_task_form_container{
+  margin-right: 20px;
+  margin-left: 20px;
+}
