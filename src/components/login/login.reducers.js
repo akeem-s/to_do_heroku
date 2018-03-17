@@ -1,10 +1,17 @@
-export function loginReducer(state = {}, action){
+export function loginReducer(state = {
+  username:'',
+  avatarUrl:'',
+  email:'',
+  id:''
+}, action){
   switch(action.type){
-    // case 'ACTIVATE_LIST':
-    //   return Object.assign({}, state, {
-    //     activeList: action.activeList,
-    //     activeListName: action.activeListName
-    //   })
+    case 'UPDATE_USER_INFO':
+      return Object.assign({}, state, {
+        username: action.data.username,
+        email: action.data.email,
+        avatarUrl: action.data.avatar_url,
+        id: action.data.id
+      })
 
     default:
       return state

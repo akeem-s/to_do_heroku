@@ -1,15 +1,24 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import FacebookLogin from 'react-facebook-login';
+import * as LoginActions from './login.actions.js';
 
 export class Login extends React.Component{
   constructor(props){
     super(props)
-    this.responseFacebook = this.responseFacebook.bind(this)
+    this.handleFacebookResponse = this.handleFacebookResponse.bind(this)
   }
 
-  responseFacebook(response){
-    console.log(response)
+  handleFacebookResponse(response){
+    let authInfo = {
+      username: response.name,
+      avatarUrl: response.picture.data.url,
+      email: response.email,
+      provider: "facebook",
+      password: response.userID
+    }
+    const {dispatch} = this.props
+    dispatch(LoginActions.sendLoginInfo(authInfo))
   }
 
   render(){
@@ -17,10 +26,10 @@ export class Login extends React.Component{
       <div id="login_container" >
         <FacebookLogin
     appId="148933455764231"
-    autoLoad={true}
+    autoLoad={false}
     fields="name,email,picture"
-    onClick={()=>{console.log("dwdw")}}
-    callback={this.responseFacebook} />
+    onClick={{}}
+    callback={this.handleFacebookResponse} />
       </div>
     )
   }

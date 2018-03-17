@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import React from 'react';
 //components
-import TaskComponent from '../taskComponent/TaskComponent'
+import TaskView from './TaskView'
 //actions
 import * as ListComponentActions from './listComponent.actions'
 
@@ -72,7 +72,7 @@ export class ListComponent extends React.Component{
     for(let i = 0; i < len; i ++){
       let name = this.props.listComponentReducer.taskArray[i].taskName
       if(this.props.listComponentReducer.taskArray[i].id === this.props.listContainerReducer.activeList){
-        activeTasks.push( <TaskComponent key={i} name={name} deleteTask={this.deleteTask.bind(this)}/>)
+        activeTasks.push( <TaskView key={i} name={name} deleteTask={this.deleteTask.bind(this)}/>)
       }
     }
     return activeTasks
