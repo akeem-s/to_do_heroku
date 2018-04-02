@@ -1,12 +1,12 @@
-import React, { PropTypes, Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import FacebookLogin from 'react-facebook-login';
-import * as LoginActions from './login.actions.js';
+import { sendLoginInfo } from './login.actions.js';
 
 export class Login extends React.Component{
   constructor(props){
-    super(props)
-    this.handleFacebookResponse = this.handleFacebookResponse.bind(this)
+    super(props);
+    this.handleFacebookResponse = this.handleFacebookResponse.bind(this);
   }
 
   handleFacebookResponse(response){
@@ -14,16 +14,16 @@ export class Login extends React.Component{
       username: response.name,
       avatarUrl: response.picture.data.url,
       email: response.email,
-      provider: "facebook",
-      password: response.userID
-    }
-    const {dispatch} = this.props
-    dispatch(LoginActions.sendLoginInfo(authInfo))
+      provider: 'facebook',
+      password: response.userID,
+    };
+    const {dispatch} = this.props;
+    dispatch(sendLoginInfo(authInfo));
   }
 
   render(){
     return(
-      <div id="login_container" >
+      <div id="loginContainer" >
         <FacebookLogin
     appId="148933455764231"
     autoLoad={false}
@@ -31,16 +31,16 @@ export class Login extends React.Component{
     onClick={{}}
     callback={this.handleFacebookResponse} />
       </div>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
-  const { loginReducer } = state
+  const { loginReducer } = state;
 
   return {
-  	loginReducer
-  }
+    loginReducer,
+  };
 }
 
 export default connect(mapStateToProps)(Login);

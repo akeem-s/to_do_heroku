@@ -5,8 +5,9 @@ import CreateListPopup from './CreateListPopup';
 import ListComponent from '../listComponent/ListComponent';
 import ListTab from './ListTab';
 import Login from '../login/Login';
+// functional components
 import Header from '../common/header/Header';
-
+import ErrorMessage from '../common/ErrorMessage';
 // actions
 import * as ListContainerActions from './listContainer.actions.js';
 const { activateList, deleteList, handleSubmit, listCreateError, nameChange, toggleCreateListPopup } = ListContainerActions;
@@ -20,7 +21,7 @@ export class ListContainer extends React.Component{
     this.handleSubmit = this.handleSubmit.bind(this);
     this.renderCreateListPopup = this.renderCreateListPopup.bind(this);
     this.renderError = this.renderError.bind(this);
-    this.renderListArrayHtml = this.renderListArrayHtml.bind(this);
+    this.renderListTabs = this.renderListTabs.bind(this);
     this.renderListComponent = this.renderListComponent.bind(this);
     this.renderLoginComponent = this.renderLoginComponent.bind(this);
     this.renderUserProfileDetails = this.renderUserProfileDetails.bind(this);
@@ -30,7 +31,7 @@ export class ListContainer extends React.Component{
   handleChange(e){
     const {dispatch} = this.props;
     const listName = e.target.value;
-    dispatch(nameChange(listName));
+    dispatch(nameChange({listName}));
   }
 
   handleSubmit(e){
@@ -38,12 +39,12 @@ export class ListContainer extends React.Component{
     const {dispatch} = this.props;
     const { listArray, listName } = this.props;
     const key = listArray.length;
-    const list = {key: key, name: listName};
+    const payload = {key: key, name: listName};
     if(listName){
-      dispatch(handleSubmit(list));
-      dispatch(listCreateError(''));
+      dispatch(handleSubmit(payload));
+      // dispatch(listCreateError(''));
       dispatch(toggleCreateListPopup(false));
-      document.getElementById('list_name_input').value = null;
+      document.getElementById('listNameInput').value = null;
     }
     else {
       const error = 'List cannot be blank';
@@ -53,13 +54,13 @@ export class ListContainer extends React.Component{
 
   activateList(listKey, listName){
     const { dispatch } = this.props;
-    dispatch(activateList(listKey, listName));
+    dispatch(activateList({activeList: listKey, activeListName: listName}));
   }
 
   toggleCreateListPopup(e){
     e.preventDefault();
-    const { dispatch, showPopup } = this.props;
-    dispatch(toggleCreateListPopup(!showPopup));
+    const { dispatch } = this.props;
+    dispatch(toggleCreateListPopup());
   }
 
   deleteList(key){
@@ -67,37 +68,36 @@ export class ListContainer extends React.Component{
     const len = listArray.length;
     for(var i = 0; i < len; i++){
       if(listArray[i] && listArray[i].key === key){
-        dispatch(deleteList(i));
+        dispatch(deleteList({listKey: i}));
       }
     }
   }
 
   renderError(){
-    let errorHtml;
     const { error } = this.props;
+    const className = 'errorComponent';
     if(error){
-      errorHtml = (
-        <h1> {error}</h1>
-      );
+      return <ErrorMessage message={error} className={className}/>;
     }
-    return errorHtml;
+    return null;
   }
 
-  renderListArrayHtml(){
+  renderListTabs(){
     let listArrayHtml = [];
     const { listArray } = this.props;
-    if(listArray){
-      const len = listArray.length;
-      for(let i = 0; i < len; i++){
-        listArrayHtml.push(
+    let i = 0;
+    listArray.forEach(()=>{
+      listArrayHtml.push(
+        <div key={listArray[i].key}>
           <ListTab
             activateList={this.activateList}
             deleteList={this.deleteList}
-            key={listArray[i].key}
+            listKey={listArray[i].key}
             name={listArray[i].name}/>
-        );
-      }
-    }
+        </div>
+      );
+      i++;
+    });
     return listArrayHtml;
   }
 
@@ -136,33 +136,33 @@ export class ListContainer extends React.Component{
       return (
         <div>
           <img src={avatarUrl} id="avatar" alt="user icon"></img>
-          <p id="user_name_list_container">{username}</p>
+          <p id="userNameListContainer">{username}</p>
         </div>
       );
     }
     return (
       <div>
         <img src="./img/user_icon.png" id="avatar" alt="user icon"></img>
-        <p id="user_name_list_container">Login In For Your Details</p>
+        <p id="userNameListContainer">Login In For Your Details</p>
       </div>
     );
   }
 
   render(){
-    const { activeListName } = this.props; 
+    const { activeListName } = this.props;
     return(
       <div>
         <Header activeListName={activeListName}/>
-        <div className="list_container" >
-          <div className="mini_nav">
-            <i className="fa fa-lg fa-bars header_bars" aria-hidden="true"></i>
-            <i className="fa fa-lg fa-search header_magnify" aria-hidden="true"></i>
+        <div className="listContainer" >
+          <div className="miniNav">
+            {/* <i className="fa fa-lg fa-bars header_bars" aria-hidden="true"></i>
+            <i className="fa fa-lg fa-search header_magnify" aria-hidden="true"></i> */}
           </div>
-          <div className="user_profile_nav">
+          <div className="userProfileNav">
             {this.renderUserProfileDetails()}
           </div>
           {this.renderError()}
-          <div id="create_list_button_container" onClick={this.toggleCreateListPopup}>
+          <div id="createListButtonContainer" onClick={this.toggleCreateListPopup}>
             <div className="circle-plus">
               <div className="circle">
                 <div className="horizontal"></div>
@@ -170,14 +170,14 @@ export class ListContainer extends React.Component{
               </div>
             </div>
             <i className="fa fa-lg fa-plus" aria-hidden="true"></i>
-            <p id="create_list_button">Create List</p>
+            <p id="createListButton">Create List</p>
           </div>
-          {this.renderListArrayHtml()}
+          {this.renderListTabs()}
           {this.renderLoginComponent()}
         </div>
 
-        <div id="active_list_container">
-          <img src="./img/monster.png" id="monster_png" alt="background"></img>
+        <div id="activeListContainer">
+          <img src="./img/monster.png" id="monsterPng" alt="background"></img>
           {this.renderListComponent()}
         </div>
         {this.renderCreateListPopup()}
@@ -187,8 +187,7 @@ export class ListContainer extends React.Component{
 }
 
 function mapStateToProps(state) {
-  const {listContainerReducer: { activeList, activeListName, listArray, listName, showPopup }} = state;
-  const {loginReducer:{ avatarUrl, username, email }} = state;
+  const {listContainerReducer: { activeList, activeListName, listArray, listName, showPopup }, loginReducer:{ avatarUrl, username, email }} = state;
 
   return {
     activeList,

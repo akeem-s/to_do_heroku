@@ -7,8 +7,8 @@ const propTypes = {
 
 const HeaderComponent = ({ activeListName }) => {
   return (
-    <div className="header_container">
-      {activeListName ? <p id="list_name_header">{activeListName}</p> : <p id="list_name_header">Welcome</p>}
+    <div className="headerContainer">
+      {activeListName ? <p id="listNameHeader">{activeListName}</p> : <p id="listNameHeader">Welcome</p>}
     </div>
   );
 };

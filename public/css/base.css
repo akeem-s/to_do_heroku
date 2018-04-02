@@ -2,13 +2,16 @@ body {
   font-family: "Lato","Geneva CY","Lucida Grande","Arial Unicode MS","Helvetica Neue","Helvetica","Arial",sans-serif;
 }
 
-.header_container {
-  /*border-style: solid;
-  border-color: black;
-  border-width: .1px;*/
-  /*position: absolute;
-  top: 0;
-  right: 0;*/
+.barsIcon {
+  display: inline-block !important;
+}
+
+.listTabTrash {
+  display: inline-block;
+  margin-left: 236px !important;
+}
+
+.headerContainer {
   float: right;
   height: 8vh;
   width: 76vw;
@@ -21,29 +24,22 @@ body {
   line-height: 0;
 }
 
-.list_container{
+.listContainer{
   width: 24vw;
   height: 100vh;
-  /*border-style: solid;
-  border-color: black;
-  border-width: .1px;*/
   overflow: scroll;
   font-size: 14px;
 }
 
-.mini_nav{
+.miniNav{
   width: 24vw;
   height: 8vh;
-  /*border-style: solid;
-  border-color: black;
-  border-width: .1px;*/
   margin-bottom: .1px;
   background-color: #3F7E7A;
 }
 
-.list_tab{
+.listTab{
   width: 24vw;
-  height: 38px;
   line-height: 38px;
   color: #262626;
   align-items: center;
@@ -67,7 +63,7 @@ body {
   margin-left: 6px;
 }
 
-#user_name_list_container{
+#userNameListContainer{
   margin-left: 12px;
   display: inline-block;
   line-height: 5px;
@@ -77,8 +73,7 @@ body {
   padding-top: 3.7px;
 }
 
-.arrow_custom{
-  /*float: right;*/
+.arrowCustom{
   line-height: 5px;
   height: 5px;
   vertical-align: text-bottom;
@@ -92,7 +87,7 @@ body {
   margin-right: 20px;
 }
 
-#create_list_button{
+#createListButton{
   color: #328ad6;
   padding-top: 3px;
   vertical-align: text-bottom;
@@ -105,9 +100,6 @@ body {
 
 .fa-plus{
   color: #328ad6;
-  /*margin-top: 10px;*/
-  /*padding-top: 3px;
-  vertical-align: text-bottom;*/
   position: absolute;
   bottom: 12px;
   margin-left: 15px;
@@ -115,7 +107,7 @@ body {
   display: inline-block;
 }
 
-#create_list_button_container{
+#createListButtonContainer{
   border-top: 1px solid rgba(0,0,0,0.1);
   background: #f7f7f7;
   display: inline-block;
@@ -128,37 +120,7 @@ body {
   left: 0;
 }
 
-/*.circle-plus {
-  height:6em;
-  width:6em;
-  font-size:.5em ;
-  display: inline-block;
-}
-.circle-plus .circle {
-  position: relative;
-  width: 4.5em;
-  height: 4.5em;
-  border-radius: 100%;
-  border: solid .8em #DFDAD7;
-}
-.circle-plus .circle .horizontal {
-  position: absolute;
-  background-color: #DFDAD7;
-  width: 2.4em;
-  height: .7em;
-  top: 1.9em;
-  left: 1.05em;
-}
-.circle-plus .circle .vertical {
-  position: absolute;
-  background-color: #DFDAD7;
-  width: .7em;
-  height: 2.4em;
-  top: 1.05em;
-  left: 1.9em;
-}*/
-
-#create_list_popup{
+#createListPopup{
   text-align: center;
   background-color: #fff;
   color: black;
@@ -173,13 +135,13 @@ body {
   border-radius: 3px;
 }
 
-#list_name_input{
+#listNameInput{
   width: 80%;
   display: block;
   margin-left: 10%;
 }
 
-#cancel_button{
+#cancelButton{
   display: inline-block;
   float: right;
   width: 130px;
@@ -196,7 +158,7 @@ body {
   padding: 8px 12px;
 }
 
-#save_button {
+#saveButton {
   display: inline-block;
   float: right;
   width: 130px;
@@ -215,7 +177,7 @@ body {
   margin-right: 14%;
 }
 
-#list_form{
+#listForm{
   text-align: center;
 }
 
@@ -224,18 +186,18 @@ body {
   opacity: .3;
 }
 
-#popup_username{
+#popupUsername{
   font-size: 13px;
   margin-left: 8px;
 }
 
-#popup_email{
+#popupEmail{
   font-size: 10px;
   margin-left: 69px;
   margin-bottom: 13px;
 }
 
-#popup_avatar{
+#popupAvatar{
   height: 32px;
   width: 32px;
   position: relative;
@@ -246,27 +208,23 @@ body {
   margin-left: 35px;
 }
 
-.list_name_tab{
+.listNameTab{
   display: inline-block;
   margin-left: 15px;
 }
 
-#list_name_header{
-  /*line-height: 5px;
-  height: 5px;
-  vertical-align: text-bottom;
-  display: inline-block;*/
+#listNameHeader{
   margin-left: 5px;
 }
 
-.header_bars{
+.headerBars{
   display: inline-block;
   color: white;
   margin-left: 12px;
   margin-top: 20px;
 }
 
-.header_magnify{
+.headerMagnify{
   display: inline-block;
   color: white;
   margin-right: 18px;
@@ -274,7 +232,7 @@ body {
   float: right;
 }
 
-#active_list_container{
+#activeListContainer{
   background-color: #81BCB8;
   height: 100%;
   width: 100%;
@@ -296,14 +254,14 @@ input[name="task_name_input"]{
   margin-left: 12px;
 }
 
-#monster_png{
+#monsterPng{
   height: 40vh;
   width: auto;
   position: absolute;
   bottom: 0;
 }
 
-.task_name_tab{
+.taskNameTab{
   height: 47px;
   width: 74vw;
   background: #fff;
@@ -329,7 +287,7 @@ input[name="task_name_input"]{
   margin: 0 auto;
 }
 
-.task_tab_container{
+.taskTabContainer{
   margin-top: 2px;
 }
 
@@ -338,7 +296,7 @@ input[name="task_name_input"]{
   margin-left: 15px;
 }
 
-#task_button{
+#taskButton{
   background-color: white;
   border-color: white;
   border-radius: 18px;
@@ -347,7 +305,7 @@ input[name="task_name_input"]{
   right: 20px;
 }
 
-#new_task_form_container{
+#newTaskFormContainer{
   margin-right: 20px;
   margin-left: 20px;
 }
