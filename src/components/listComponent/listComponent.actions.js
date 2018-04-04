@@ -1,49 +1,50 @@
-export const TASK_NAME_CHANGE = 'TASK_NAME_CHANGE'
-export const TASK_DETAILS_CHANGE = 'TASK_DETAILS_CHANGE'
-export const HANDLE_TASK_SUBMIT = 'HANDLE_TASK_SUBMIT'
-export const TASK_CREATE_ERROR = 'TASK_CREATE_ERROR'
-export const TOGGLE_TASK_FORM = 'TOGGLE_TASK_FORM'
-export const DELETE_TASK = 'DELETE_TASK'
+import { ListComponentActionTypes } from '../../ActionTypes.js';
+const { TASK_NAME_CHANGE, TASK_DETAILS_CHANGE, HANDLE_TASK_SUBMIT, TASK_CREATE_ERROR, TOGGLE_TASK_FORM, DELETE_TASK, UPDATE_ACTIVE_TASKS} = ListComponentActionTypes;
 
-export function taskNameChange(val){
+export function updateActiveTasks(payload){
+  return {
+    type: UPDATE_ACTIVE_TASKS,
+    payload,
+  };
+}
+
+export function taskNameChange(payload){
   return{
     type: TASK_NAME_CHANGE,
-    taskName: val
-  }
+    payload,
+  };
 }
 
-export function taskDetailsChange(val){
+export function taskDetailsChange(payload){
   return{
     type: TASK_DETAILS_CHANGE,
-    taskDetails: val
-  }
+    payload,
+  };
 }
 
-export function handleSubmit(newTask){
+export function handleSubmit(payload){
   return{
     type: HANDLE_TASK_SUBMIT,
-    newTask: newTask,
-
-  }
+    payload,
+  };
 }
 
-export function taskCreateError(error){
+export function taskCreateError(payload){
   return{
     type: TASK_CREATE_ERROR,
-    error: error
-  }
+    payload,
+  };
 }
 
-export function toggleTaskForm(val){
+export function toggleTaskForm(){
   return{
     type: TOGGLE_TASK_FORM,
-    showTaskForm: val
-  }
+  };
 }
 
-export function deleteTask(val){
+export function deleteTask(payload){
   return{
     type: DELETE_TASK,
-    taskId: val
-  }
+    payload,
+  };
 }

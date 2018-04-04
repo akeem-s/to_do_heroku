@@ -1,37 +1,47 @@
-import React, { PropTypes, Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import FacebookLogin from 'react-facebook-login';
+import { sendLoginInfo } from './login.actions.js';
 
 export class Login extends React.Component{
   constructor(props){
-    super(props)
-    this.responseFacebook = this.responseFacebook.bind(this)
+    super(props);
+    this.handleFacebookResponse = this.handleFacebookResponse.bind(this);
   }
 
-  responseFacebook(response){
-    console.log(response)
+  handleFacebookResponse(response){
+    const { dispatch } = this.props;
+    const { name, email, userID, picture:{data:url} } = response;
+    let authInfo = {
+      username: name,
+      avatarUrl: url,
+      email: email,
+      provider: 'facebook',
+      password: userID,
+    };
+    dispatch(sendLoginInfo(authInfo));
   }
 
   render(){
     return(
-      <div id="login_container" >
+      <div id="loginContainer" >
         <FacebookLogin
-    appId="148933455764231"
-    autoLoad={true}
-    fields="name,email,picture"
-    onClick={()=>{console.log("dwdw")}}
-    callback={this.responseFacebook} />
+          appId="148933455764231"
+          autoLoad={false}
+          fields="name,email,picture"
+          onClick={{}}
+          callback={this.handleFacebookResponse} />
       </div>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
-  const { loginReducer } = state
+  const { loginReducer } = state;
 
   return {
-  	loginReducer
-  }
+    loginReducer,
+  };
 }
 
 export default connect(mapStateToProps)(Login);

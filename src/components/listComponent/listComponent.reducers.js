@@ -1,35 +1,43 @@
 export function listComponentReducer(state={
-  taskArray: [],
-  taskName: '',
-  taskDetails: '',
-  showTaskForm: false
+  activeTasks: [],
+  taskArray:[],
+  showTaskForm: false,
 }, action){
-  switch (action.type){
+  const { type, payload } = action;
+  switch (type){
     case 'TASK_NAME_CHANGE':
       return Object.assign({}, state, {
-        taskName: action.taskName
-      })
+        taskName: payload.taskName,
+      });
 
     case 'TASK_DETAILS_CHANGE':
       return Object.assign({}, state, {
-        taskDetails: action.taskDetails
-      })
+        taskDetails: payload.taskDetails,
+      });
 
     case 'HANDLE_TASK_SUBMIT':
-      state.taskArray.push(action.newTask)
-      return Object.assign({}, state, {})
+      state.taskArray.push(payload);
+      return Object.assign({}, state, {
+        taskName: '',
+        taskDetails: '',
+      });
 
     case 'TOGGLE_TASK_FORM':
       return Object.assign({}, state, {
-        showTaskForm: action.showTaskForm
-      })
+        showTaskForm: !state.showTaskForm,
+      });
 
     case 'DELETE_TASK':
-      state.taskArray.splice(action.taskId, 1)
-      return Object.assign({}, state, {})
+      state.taskArray.splice(action.taskId, 1);
+      return Object.assign({}, state, {});
+
+    case 'UPDATE_ACTIVE_TASKS':
+      return Object.assign({}, state, {
+        activeTasks: payload.activeTaskArray,
+      });
 
     default:
-      return state
+      return state;
   }
 }
 

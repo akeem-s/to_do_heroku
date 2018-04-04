@@ -1,117 +1,112 @@
 import { connect } from 'react-redux';
 import React from 'react';
 //components
-import TaskComponent from '../taskComponent/TaskComponent'
+import Task from './Task';
 //actions
-import * as ListComponentActions from './listComponent.actions'
+import { deleteTask, handleSubmit, taskCreateError, taskNameChange, toggleTaskForm , updateActiveTasks} from './listComponent.actions';
 
 export class ListComponent extends React.Component{
   constructor(props){
-    super(props)
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.renderActiveTasks = this.renderActiveTasks.bind(this);
+    super(props);
+    this.handleTaskNameChange = this.handleTaskNameChange.bind(this);
+    this.handleTaskFormSubmit = this.handleTaskFormSubmit.bind(this);
+    this.updateActiveTasks = this.updateActiveTasks.bind(this);
     this.renderTaskForm = this.renderTaskForm.bind(this);
     this.toggleTaskForm = this.toggleTaskForm.bind(this);
+    this.updateActiveTasks = this.updateActiveTasks.bind(this);
   }
 
-  handleChange(e){
-    let val = e.target.value
-    let name = e.target.name
-    const {dispatch} = this.props
-
-    switch (name) {
-      case "task_name_input":
-        dispatch(ListComponentActions.taskNameChange(val))
-        break;
-
-      case "task_details_input":
-        dispatch(ListComponentActions.taskDetailsChange(val))
-        break;
-      default:
-
-    }
+  componentWillMount(){
+    this.updateActiveTasks();
   }
 
-  handleSubmit(e){
-    const {dispatch} = this.props
-    let taskName = this.props.listComponentReducer.taskName
-    let taskDetails = this.props.listComponentReducer.taskDetails
+  handleTaskNameChange(e){
+    const {dispatch} = this.props;
+    const taskName = e.target.value;
+    dispatch(taskNameChange({taskName}));
+  }
 
+  handleTaskFormSubmit(){
+    const { activeList, dispatch, taskName } = this.props;
     if(taskName){
-      dispatch(ListComponentActions.handleSubmit({taskName: taskName, taskDetails: taskDetails, id: this.props.listContainerReducer.activeList, completed: false}))
-      document.getElementById("task_name_input").value = ""
-      dispatch(ListComponentActions.taskNameChange(''))
-      dispatch(ListComponentActions.taskDetailsChange(''))
-      dispatch(ListComponentActions.taskCreateError(''))
+      dispatch(handleSubmit({taskName: taskName, listId: activeList, completed: false, description: ''}));
+      this.updateActiveTasks();
+      document.getElementById('taskNameInput').value = '';
     }
     else {
-      let error = "Task name cannot be blank"
-      dispatch(ListComponentActions.taskCreateError(error))
+      let error = 'Task name cannot be blank';
+      dispatch(taskCreateError(error));
     }
   }
 
   toggleTaskForm(){
-    const {dispatch} = this.props
-    dispatch(ListComponentActions.toggleTaskForm(!this.props.listComponentReducer.showTaskForm))
+    const { dispatch, showTaskForm } = this.props;
+    dispatch(toggleTaskForm(!showTaskForm));
   }
 
   deleteTask(taskName){
-    const {dispatch} = this.props
-    let len = this.props.listComponentReducer.taskArray.length
-    for(let i = 0; i < len; i ++){
-      if(this.props.listComponentReducer.taskArray[i] && this.props.listComponentReducer.taskArray[i].taskName === taskName){
-        dispatch(ListComponentActions.deleteTask(i))
+    const { dispatch, taskArray } = this.props;
+    let i = 0;
+    taskArray.forEach(()=>{
+      if(taskArray[i] && taskArray[i].taskName === taskName){
+        dispatch(deleteTask(i));
       }
-    }
+      i++;
+    });
+    this.updateActiveTasks();
   }
 
-  renderActiveTasks(){
-    let activeTasks = []
-    let len = this.props.listComponentReducer.taskArray.length
-    for(let i = 0; i < len; i ++){
-      let name = this.props.listComponentReducer.taskArray[i].taskName
-      if(this.props.listComponentReducer.taskArray[i].id === this.props.listContainerReducer.activeList){
-        activeTasks.push( <TaskComponent key={i} name={name} deleteTask={this.deleteTask.bind(this)}/>)
+  updateActiveTasks(){
+    const { activeList, taskArray, dispatch } = this.props;
+    let activeTaskArray = [];
+    let len = taskArray.length;
+    for(let i = 0; i < len; i++){
+      if(taskArray[i].listId === activeList){
+        activeTaskArray.push(taskArray[i]);
       }
     }
-    return activeTasks
+    dispatch(updateActiveTasks({activeTaskArray}));
   }
 
   renderTaskForm(){
     let taskFormHtml =(
-      <div id="new_task_form_container">
+      <div id="newTaskFormContainer">
         <div>
           <form onSubmit={(e) => e.preventDefault()}>
-            <input type="text" name="task_name_input" id="task_name_input" placeholder="task name" onChange={this.handleChange}></input>
-            <button onClick={this.handleSubmit} id="task_button">create task</button>
+            <input type="text" name="taskName" id="taskNameInput" placeholder="task name" onChange={this.handleTaskNameChange}></input>
+            <button onClick={this.handleTaskFormSubmit} id="taskButton">create task</button>
           </form>
         </div>
-        </div>
-      )
-    return taskFormHtml
+      </div>
+    );
+    return taskFormHtml;
   }
 
   render(){
-
+    const { activeTasks } = this.props;
     return(
-      <div className="list_component_container" >
+      <div className="listComponentContainer" >
         {this.renderTaskForm()}
-        <div className="task_container">
-          {this.renderActiveTasks()}
+        <div className="taskContainer">
+          {activeTasks.map((task)=>{
+            return <Task key={task.taskName} name={task.taskName} deleteTask={this.deleteTask.bind(this)}/>;
+          })}
         </div>
       </div>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
-  const { listComponentReducer, listContainerReducer } = state
+  const { listContainerReducer:{activeList}, listComponentReducer:{showTaskForm, taskArray, taskName, activeTasks} } = state;
 
   return {
-  	listComponentReducer,
-    listContainerReducer
-  }
+    activeList,
+    activeTasks,
+    showTaskForm,
+    taskArray,
+    taskName,
+  };
 }
 
 export default connect(mapStateToProps)(ListComponent);

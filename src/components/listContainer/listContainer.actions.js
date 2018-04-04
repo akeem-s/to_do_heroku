@@ -1,49 +1,43 @@
-export const ACTIVATE_LIST = 'ACTIVATE_LIST'
-export const DELETE_LIST = 'DELETE_LIST'
-export const HANDLE_SUBMIT = 'HANDLE_SUBMIT'
-export const LIST_CREATE_ERROR = 'LIST_CREATE_ERROR'
-export const NAME_CHANGE = 'NAME_CHANGE'
-export const TOGGLE_CREATE_LIST_POPUP = 'TOGGLE_CREATE_LIST_POPUP'
+import { ListContainerActionTypes } from '../../ActionTypes.js';
+const { ACTIVATE_LIST, DELETE_LIST, HANDLE_SUBMIT, LIST_CREATE_ERROR, LIST_NAME_CHANGE, TOGGLE_CREATE_LIST_POPUP } = ListContainerActionTypes;
 
-export function activateList(listKey, listName){
+export function activateList(payload){
   return{
     type: ACTIVATE_LIST,
-    activeList: listKey,
-    activeListName: listName
-  }
+    payload,
+  };
 }
 
-export function deleteList(key){
+export function deleteList(payload){
   return{
     type: DELETE_LIST,
-    listKey: key
-  }
+    payload,
+  };
 }
 
-export function handleSubmit(newList){
+export function handleSubmit(payload){
   return{
     type: HANDLE_SUBMIT,
-    newList: newList
-  }
+    payload,
+  };
 }
 
-export function listCreateError(error){
+export function listCreateError(payload){
   return{
     type: LIST_CREATE_ERROR,
-    error: error
-  }
+    payload,
+  };
 }
 
-export function nameChange(listName){
+export function nameChange(payload){
   return{
-    type: NAME_CHANGE,
-    listName: listName
-  }
+    type: LIST_NAME_CHANGE,
+    payload,
+  };
 }
-  
-export function toggleCreateListPopup(val){
+
+export function toggleCreateListPopup(){
   return{
     type: TOGGLE_CREATE_LIST_POPUP,
-    showCreateListPopup: val
-  }
+  };
 }
