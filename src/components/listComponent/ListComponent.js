@@ -78,7 +78,7 @@ export class ListComponent extends React.Component{
           </form>
         </div>
       </div>
-      );
+    );
     return taskFormHtml;
   }
 

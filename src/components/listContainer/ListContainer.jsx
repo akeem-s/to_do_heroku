@@ -42,7 +42,6 @@ export class ListContainer extends React.Component{
     const payload = {key: key, name: listName};
     if(listName){
       dispatch(handleSubmit(payload));
-      // dispatch(listCreateError(''));
       dispatch(toggleCreateListPopup(false));
       document.getElementById('listNameInput').value = null;
     }
@@ -120,12 +119,14 @@ export class ListContainer extends React.Component{
   }
 
   renderCreateListPopup(){
-    const { showPopup } = this.props;
+    const { showPopup, avatarUrl } = this.props;
     if(showPopup){
       return <CreateListPopup
         handleSubmit={this.handleSubmit}
         toggleCreateListPopup={this.toggleCreateListPopup}
-        handleChange={this.handleChange}/>;
+        handleChange={this.handleChange}
+        avatarUrl={avatarUrl}
+      />;
     }
     return null;
   }
@@ -187,7 +188,7 @@ export class ListContainer extends React.Component{
 }
 
 function mapStateToProps(state) {
-  const {listContainerReducer: { activeList, activeListName, listArray, listName, showPopup }, loginReducer:{ avatarUrl, username, email }} = state;
+  const {listContainerReducer: { activeList, activeListName, listArray, listName, showPopup }, loginReducer:{ user:{avatarUrl, username, email} }} = state;
 
   return {
     activeList,

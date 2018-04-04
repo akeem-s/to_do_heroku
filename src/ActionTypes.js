@@ -19,5 +19,6 @@ export const ListContainerActionTypes = {
 
 export const LoginActionTypes = {
   SEND_LOGIN_INFO: 'SEND_LOGIN_INFO',
-  UPDATE_USER_INFO: 'UPDATE_USER_INFO',
+  LOGIN_SUCCESS: 'LOGIN_SUCCESS',
+  LOGIN_ERROR: 'LOGIN_ERROR',
 };

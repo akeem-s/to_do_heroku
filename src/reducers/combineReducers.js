@@ -10,4 +10,4 @@ let reducers = combineReducers({
   loginReducer,
 });
 
-export default reducers
+export default reducers;

@@ -10,14 +10,15 @@ export class Login extends React.Component{
   }
 
   handleFacebookResponse(response){
+    const { dispatch } = this.props;
+    const { name, email, userID, picture:{data:url} } = response;
     let authInfo = {
-      username: response.name,
-      avatarUrl: response.picture.data.url,
-      email: response.email,
+      username: name,
+      avatarUrl: url,
+      email: email,
       provider: 'facebook',
-      password: response.userID,
+      password: userID,
     };
-    const {dispatch} = this.props;
     dispatch(sendLoginInfo(authInfo));
   }
 
@@ -25,11 +26,11 @@ export class Login extends React.Component{
     return(
       <div id="loginContainer" >
         <FacebookLogin
-    appId="148933455764231"
-    autoLoad={false}
-    fields="name,email,picture"
-    onClick={{}}
-    callback={this.handleFacebookResponse} />
+          appId="148933455764231"
+          autoLoad={false}
+          fields="name,email,picture"
+          onClick={{}}
+          callback={this.handleFacebookResponse} />
       </div>
     );
   }

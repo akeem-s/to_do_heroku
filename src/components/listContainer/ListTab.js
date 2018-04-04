@@ -12,10 +12,10 @@ const propTypes = {
 const ListTab = ({ activateList, deleteList, listKey, name }) => {
   return (
     <div className="listTab" key={listKey}>
-     <i className="fa fa-bars barsIcon" aria-hidden="true"></i>
-     <p className='listNameTab' onClick={()=>{ activateList(listKey, name); }}>{name}</p>
-     <i className='fa fa-trash-o listTabTrash' aria-hidden='true' onClick={()=>{ deleteList(listKey); }}></i>
-   </div>
+      <i className="fa fa-bars barsIcon" aria-hidden="true"></i>
+      <p className='listNameTab' onClick={()=>{ activateList(listKey, name); }}>{name}</p>
+      <i className='fa fa-trash-o listTabTrash' aria-hidden='true' onClick={()=>{ deleteList(listKey); }}></i>
+    </div>
   );
 };
 
