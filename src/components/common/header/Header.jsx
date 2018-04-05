@@ -5,10 +5,10 @@ const propTypes = {
   activeListName: PropTypes.string,
 };
 
-const HeaderComponent = ({ activeListName }) => {
+const HeaderComponent = ({ userName }) => {
   return (
     <div className="headerContainer">
-      {activeListName ? <p id="listNameHeader">{activeListName}</p> : <p id="listNameHeader">Welcome</p>}
+      {userName ? <p id="listNameHeader">Welcome: {userName}!</p> : <p id="listNameHeader">Sign in to test drive a super duper original app</p>}
     </div>
   );
 };

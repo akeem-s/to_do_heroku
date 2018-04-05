@@ -2,54 +2,94 @@ body {
   font-family: "Lato","Geneva CY","Lucida Grande","Arial Unicode MS","Helvetica Neue","Helvetica","Arial",sans-serif;
 }
 
+.userProfileNav{
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  flex-flow: wrap;
+  margin-left: 20px;
+}
+
+.kep-login-facebook.metro{
+  border-radius: 30px !important;
+  width: 500px !important;
+  height: 229px !important;
+  font-size: 30px !important;
+}
+
+.activeListName{
+  margin: 20px;
+}
+
+#root{
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  -ms-flex-line-pack: end;
+  align-content: flex-end;
+}
+
+#loginContainer{
+  position: absolute;
+  top: 30%;
+  left: 32%;
+  z-index: 99999999;
+}
+
 .barsIcon {
   display: inline-block !important;
 }
 
 .listTabTrash {
-  display: inline-block;
-  margin-left: 236px !important;
+  font-size: 53px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.listTabAside{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.activeListNameContainer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .headerContainer {
-  float: right;
-  height: 8vh;
-  width: 76vw;
-  margin: 0;
-  padding: 10px 14px;
-  background-color: #478F8A;
+  background-color: #FFBD00;
   color: white;
   font-size: 20px;
   font-weight: 200;
   line-height: 0;
+  height: 80px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .listContainer{
-  width: 24vw;
-  height: 100vh;
-  overflow: scroll;
-  font-size: 14px;
-}
-
-.miniNav{
-  width: 24vw;
-  height: 8vh;
-  margin-bottom: .1px;
-  background-color: #3F7E7A;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
 .listTab{
-  width: 24vw;
-  line-height: 38px;
   color: #262626;
-  align-items: center;
-  padding-right: 6px;
-  padding-left: 15.5px;
   font-family: "Lato","Geneva CY","Lucida Grande","Arial Unicode MS","Helvetica Neue","Helvetica","Arial",sans-serif;
   font-size: 14px;
   font-weight: 300;
-  text-overflow: ellipsis;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2.5px solid #FFBD00;
+  border-radius: 20px;
+  margin: 10px;
 }
 
 #avatar{
@@ -95,29 +135,26 @@ body {
   margin-left: 42px;
   font-size: 15px;
   font-weight: 200;
-  display: inline-block;
+  display: none;
 }
 
 .fa-plus{
   color: #328ad6;
-  position: absolute;
-  bottom: 12px;
-  margin-left: 15px;
-  line-height: 5px;
-  display: inline-block;
+  font-size: 90px !important;
+  margin-top: 25px;
+  cursor: pointer;
+}
+
+.fa-large{
+
 }
 
 #createListButtonContainer{
   border-top: 1px solid rgba(0,0,0,0.1);
-  background: #f7f7f7;
-  display: inline-block;
-  height: 42px;
   font-size: 15px;
-  cursor: pointer;
-  width: 30vw;
-  position: fixed;
-  bottom: 0;
-  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #createListPopup{
@@ -128,9 +165,9 @@ body {
   height: 200px;
   position: absolute;
   left: 36%;
-  top: 20%;
+  top: 33%;
   z-index: 20;
-  border-color: #fff;
+  border-color: #328ad6;
   border-style: solid;
   border-radius: 3px;
 }
@@ -214,7 +251,8 @@ body {
 }
 
 #listNameHeader{
-  margin-left: 5px;
+  margin-left: 20px;
+  color: black;
 }
 
 .headerBars{
@@ -300,9 +338,6 @@ input[name="task_name_input"]{
   background-color: white;
   border-color: white;
   border-radius: 18px;
-  position: absolute;
-  top: 8px;
-  right: 20px;
 }
 
 #newTaskFormContainer{

@@ -10,7 +10,7 @@ import Header from '../common/header/Header';
 import ErrorMessage from '../common/ErrorMessage';
 // actions
 import * as ListContainerActions from './listContainer.actions.js';
-const { activateList, deleteList, handleSubmit, listCreateError, nameChange, toggleCreateListPopup } = ListContainerActions;
+const { activateList, createList, deleteList, nameChange, toggleCreateListPopup } = ListContainerActions;
 
 export class ListContainer extends React.Component{
   constructor(props){
@@ -21,45 +21,27 @@ export class ListContainer extends React.Component{
     this.handleSubmit = this.handleSubmit.bind(this);
     this.renderCreateListPopup = this.renderCreateListPopup.bind(this);
     this.renderError = this.renderError.bind(this);
-    this.renderListTabs = this.renderListTabs.bind(this);
     this.renderListComponent = this.renderListComponent.bind(this);
     this.renderLoginComponent = this.renderLoginComponent.bind(this);
     this.renderUserProfileDetails = this.renderUserProfileDetails.bind(this);
-    this.toggleCreateListPopup = this.toggleCreateListPopup.bind(this);
   }
 
   handleChange(e){
     const {dispatch} = this.props;
-    const listName = e.target.value;
-    dispatch(nameChange({listName}));
+    const listNameInputValue = e.target.value;
+    dispatch(nameChange({listNameInputValue}));
   }
 
   handleSubmit(e){
     e.preventDefault();
-    const {dispatch} = this.props;
-    const { listArray, listName } = this.props;
-    const key = listArray.length;
-    const payload = {key: key, name: listName};
-    if(listName){
-      dispatch(handleSubmit(payload));
-      dispatch(toggleCreateListPopup(false));
-      document.getElementById('listNameInput').value = null;
-    }
-    else {
-      const error = 'List cannot be blank';
-      dispatch(listCreateError(error));
-    }
+    const { dispatch, listNameInputValue, id } = this.props;
+    const payload = {id, name:listNameInputValue};
+    dispatch(createList(payload));
   }
 
   activateList(listKey, listName){
     const { dispatch } = this.props;
     dispatch(activateList({activeList: listKey, activeListName: listName}));
-  }
-
-  toggleCreateListPopup(e){
-    e.preventDefault();
-    const { dispatch } = this.props;
-    dispatch(toggleCreateListPopup());
   }
 
   deleteList(key){
@@ -79,25 +61,6 @@ export class ListContainer extends React.Component{
       return <ErrorMessage message={error} className={className}/>;
     }
     return null;
-  }
-
-  renderListTabs(){
-    let listArrayHtml = [];
-    const { listArray } = this.props;
-    let i = 0;
-    listArray.forEach(()=>{
-      listArrayHtml.push(
-        <div key={listArray[i].key}>
-          <ListTab
-            activateList={this.activateList}
-            deleteList={this.deleteList}
-            listKey={listArray[i].key}
-            name={listArray[i].name}/>
-        </div>
-      );
-      i++;
-    });
-    return listArrayHtml;
   }
 
   renderListComponent(){
@@ -123,7 +86,6 @@ export class ListContainer extends React.Component{
     if(showPopup){
       return <CreateListPopup
         handleSubmit={this.handleSubmit}
-        toggleCreateListPopup={this.toggleCreateListPopup}
         handleChange={this.handleChange}
         avatarUrl={avatarUrl}
       />;
@@ -132,53 +94,50 @@ export class ListContainer extends React.Component{
   }
 
   renderUserProfileDetails(){
-    const { avatarUrl, username } = this.props;
+    const { avatarUrl, username, dispatch } = this.props;
     if(avatarUrl){
       return (
         <div>
-          <img src={avatarUrl} id="avatar" alt="user icon"></img>
-          <p id="userNameListContainer">{username}</p>
+          <div>
+            <img src={avatarUrl} id="avatar" alt="user icon"></img>
+            <p id="userNameListContainer">{username}</p>
+          </div>
+          <div id="createListButtonContainer" onClick={()=>{ dispatch(toggleCreateListPopup()); }}>
+            <i className="fa fa-lg fa-plus" aria-hidden="true"></i>
+          </div>
         </div>
       );
     }
     return (
       <div>
-        <img src="./img/user_icon.png" id="avatar" alt="user icon"></img>
-        <p id="userNameListContainer">Login In For Your Details</p>
+        {this.renderLoginComponent()}
       </div>
     );
   }
 
   render(){
-    const { activeListName } = this.props;
+    const { lists, username } = this.props;
     return(
       <div>
-        <Header activeListName={activeListName}/>
+        <Header userName={username}/>
         <div className="listContainer" >
-          <div className="miniNav">
-            {/* <i className="fa fa-lg fa-bars header_bars" aria-hidden="true"></i>
-            <i className="fa fa-lg fa-search header_magnify" aria-hidden="true"></i> */}
-          </div>
           <div className="userProfileNav">
             {this.renderUserProfileDetails()}
           </div>
           {this.renderError()}
-          <div id="createListButtonContainer" onClick={this.toggleCreateListPopup}>
-            <div className="circle-plus">
-              <div className="circle">
-                <div className="horizontal"></div>
-                <div className="vertical"></div>
-              </div>
-            </div>
-            <i className="fa fa-lg fa-plus" aria-hidden="true"></i>
-            <p id="createListButton">Create List</p>
-          </div>
-          {this.renderListTabs()}
-          {this.renderLoginComponent()}
+          <aside className='listTabAside'>
+            {lists.map((list)=>{
+              return <ListTab
+                activateList={this.activateList}
+                deleteList={this.deleteList}
+                listKey={list.id}
+                name={list.name}/>;
+            })}
+          </aside>
         </div>
 
-        <div id="activeListContainer">
-          <img src="./img/monster.png" id="monsterPng" alt="background"></img>
+        {/* <div id="activeListContainer"> */}
+        <div>
           {this.renderListComponent()}
         </div>
         {this.renderCreateListPopup()}
@@ -188,15 +147,17 @@ export class ListContainer extends React.Component{
 }
 
 function mapStateToProps(state) {
-  const {listContainerReducer: { activeList, activeListName, listArray, listName, showPopup }, loginReducer:{ user:{avatarUrl, username, email} }} = state;
+  const {listContainerReducer: { activeList, activeListName, lists, listArray, listNameInputValue, showPopup }, loginReducer:{ user:{avatarUrl, username, email, id} }} = state;
 
   return {
     activeList,
     activeListName,
     avatarUrl,
     email,
+    id,
+    lists,
     listArray,
-    listName,
+    listNameInputValue,
     username,
     showPopup,
   };

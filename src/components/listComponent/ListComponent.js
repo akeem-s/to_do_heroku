@@ -3,6 +3,7 @@ import React from 'react';
 //components
 import Task from './Task';
 //actions
+import { deleteList } from '../listContainer/listContainer.actions';
 import { deleteTask, handleSubmit, taskCreateError, taskNameChange, toggleTaskForm , updateActiveTasks} from './listComponent.actions';
 
 export class ListComponent extends React.Component{
@@ -11,7 +12,6 @@ export class ListComponent extends React.Component{
     this.handleTaskNameChange = this.handleTaskNameChange.bind(this);
     this.handleTaskFormSubmit = this.handleTaskFormSubmit.bind(this);
     this.updateActiveTasks = this.updateActiveTasks.bind(this);
-    this.renderTaskForm = this.renderTaskForm.bind(this);
     this.toggleTaskForm = this.toggleTaskForm.bind(this);
     this.updateActiveTasks = this.updateActiveTasks.bind(this);
   }
@@ -68,26 +68,23 @@ export class ListComponent extends React.Component{
     dispatch(updateActiveTasks({activeTaskArray}));
   }
 
-  renderTaskForm(){
-    let taskFormHtml =(
-      <div id="newTaskFormContainer">
-        <div>
-          <form onSubmit={(e) => e.preventDefault()}>
-            <input type="text" name="taskName" id="taskNameInput" placeholder="task name" onChange={this.handleTaskNameChange}></input>
-            <button onClick={this.handleTaskFormSubmit} id="taskButton">create task</button>
-          </form>
-        </div>
-      </div>
-    );
-    return taskFormHtml;
-  }
-
   render(){
-    const { activeTasks } = this.props;
+    const { activeTasks, activeListName, activeList } = this.props;
     return(
-      <div className="listComponentContainer" >
-        {this.renderTaskForm()}
-        <div className="taskContainer">
+      <div className='listComponentContainer'>
+        <div className='activeListNameContainer'>
+          <h3 className='activeListName'>Active List: {activeListName}</h3>
+          <i className='fa fa-trash-o listTabTrash' aria-hidden='true' onClick={()=>{ deleteList(activeList); }}></i>
+        </div>
+        <div id="newTaskFormContainer">
+          <div>
+            <form onSubmit={(e) => e.preventDefault()}>
+              <input type="text" name="taskName" id="taskNameInput" placeholder="task name" onChange={this.handleTaskNameChange}></input>
+              <button onClick={this.handleTaskFormSubmit} id="taskButton">create task</button>
+            </form>
+          </div>
+        </div>
+        <div className='taskContainer'>
           {activeTasks.map((task)=>{
             return <Task key={task.taskName} name={task.taskName} deleteTask={this.deleteTask.bind(this)}/>;
           })}
@@ -98,10 +95,11 @@ export class ListComponent extends React.Component{
 }
 
 function mapStateToProps(state) {
-  const { listContainerReducer:{activeList}, listComponentReducer:{showTaskForm, taskArray, taskName, activeTasks} } = state;
+  const { listContainerReducer:{activeList, activeListName}, listComponentReducer:{showTaskForm, taskArray, taskName, activeTasks} } = state;
 
   return {
     activeList,
+    activeListName,
     activeTasks,
     showTaskForm,
     taskArray,
