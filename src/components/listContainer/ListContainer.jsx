@@ -9,14 +9,15 @@ import Login from '../login/Login';
 import Header from '../common/header/Header';
 import ErrorMessage from '../common/ErrorMessage';
 // actions
-import * as ListContainerActions from './listContainer.actions.js';
-const { activateList, createList, deleteList, nameChange, toggleCreateListPopup } = ListContainerActions;
+import { fetchTasks } from '../listComponent/listComponent.actions';
+import { activateList, createList, deleteList, nameChange, toggleCreateListPopup } from './listContainer.actions.js';
 
 export class ListContainer extends React.Component{
   constructor(props){
     super(props);
     this.activateList = this.activateList.bind(this);
     this.deleteList = this.deleteList.bind(this);
+    this.fetchTasks = this.fetchTasks.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.renderCreateListPopup = this.renderCreateListPopup.bind(this);
@@ -42,6 +43,11 @@ export class ListContainer extends React.Component{
   activateList(listKey, listName){
     const { dispatch } = this.props;
     dispatch(activateList({activeList: listKey, activeListName: listName}));
+  }
+
+  fetchTasks(listId){
+    const { dispatch, id } = this.props;
+    dispatch(fetchTasks({listId, userId: id}));
   }
 
   deleteList(key){
@@ -129,6 +135,7 @@ export class ListContainer extends React.Component{
             {lists.map((list)=>{
               return <ListTab
                 activateList={this.activateList}
+                fetchTasks={this.fetchTasks}
                 deleteList={this.deleteList}
                 listKey={list.id}
                 name={list.name}/>;

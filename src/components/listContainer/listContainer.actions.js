@@ -1,7 +1,7 @@
 import axios from 'axios';
 import applyConverters from 'axios-case-converter';
 import { ListContainerActionTypes } from '../../ActionTypes.js';
-import { resetActiveTasks } from '../listComponent/listComponent.actions';
+import { fetchTasks, resetActiveTasks } from '../listComponent/listComponent.actions'; //eslint-disable-line
 const { ACTIVATE_LIST, CREATE_LIST_SUCCESS, CREATE_LIST_FAIL, DELETE_LIST_FAIL, DELETE_LIST_SUCCESS, FETCH_LISTS_FAIL, FETCH_LISTS_SUCCESS, HANDLE_SUBMIT, LIST_CREATE_ERROR, LIST_NAME_CHANGE, RESET_ACTIVE_LIST, TOGGLE_CREATE_LIST_POPUP } = ListContainerActionTypes;
 
 export function activateList(payload){
