@@ -69,12 +69,12 @@ export class ListComponent extends React.Component{
   }
 
   render(){
-    const { activeTasks, activeListName, activeList } = this.props;
+    const { activeTasks, activeListName, activeList, id, dispatch } = this.props;
     return(
       <div className='listComponentContainer'>
         <div className='activeListNameContainer'>
           <h3 className='activeListName'>Active List: {activeListName}</h3>
-          <i className='fa fa-trash-o listTabTrash' aria-hidden='true' onClick={()=>{ deleteList(activeList); }}></i>
+          <i className='fa fa-trash-o listTabTrash' aria-hidden='true' onClick={()=>{ dispatch(deleteList({userId:id, listId: activeList})); }}></i>
         </div>
         <div id="newTaskFormContainer">
           <div>
@@ -95,12 +95,13 @@ export class ListComponent extends React.Component{
 }
 
 function mapStateToProps(state) {
-  const { listContainerReducer:{activeList, activeListName}, listComponentReducer:{showTaskForm, taskArray, taskName, activeTasks} } = state;
+  const { listContainerReducer:{activeList, activeListName}, listComponentReducer:{showTaskForm, taskArray, taskName, activeTasks}, loginReducer:{user:{id}} } = state;
 
   return {
     activeList,
     activeListName,
     activeTasks,
+    id,
     showTaskForm,
     taskArray,
     taskName,

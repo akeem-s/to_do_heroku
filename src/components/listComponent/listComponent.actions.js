@@ -1,10 +1,16 @@
 import { ListComponentActionTypes } from '../../ActionTypes.js';
-const { TASK_NAME_CHANGE, TASK_DETAILS_CHANGE, HANDLE_TASK_SUBMIT, TASK_CREATE_ERROR, TOGGLE_TASK_FORM, DELETE_TASK, UPDATE_ACTIVE_TASKS} = ListComponentActionTypes;
+const { TASK_NAME_CHANGE, TASK_DETAILS_CHANGE, HANDLE_TASK_SUBMIT, TASK_CREATE_ERROR, TOGGLE_TASK_FORM, DELETE_TASK, RESET_ACTIVE_TASKS, UPDATE_ACTIVE_TASKS} = ListComponentActionTypes;
 
 export function updateActiveTasks(payload){
   return {
     type: UPDATE_ACTIVE_TASKS,
     payload,
+  };
+}
+
+export function resetActiveTasks(){
+  return {
+    type: RESET_ACTIVE_TASKS,
   };
 }
 

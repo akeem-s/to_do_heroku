@@ -1,5 +1,5 @@
 import { ListContainerActionTypes } from '../../ActionTypes.js';
-const { ACTIVATE_LIST, CREATE_LIST_SUCCESS, CREATE_LIST_FAIL, DELETE_LIST, FETCH_LISTS_FAIL, FETCH_LISTS_SUCCESS, LIST_CREATE_ERROR, LIST_NAME_CHANGE, TOGGLE_CREATE_LIST_POPUP } = ListContainerActionTypes;
+const { ACTIVATE_LIST, CREATE_LIST_SUCCESS, CREATE_LIST_FAIL, DELETE_LIST, FETCH_LISTS_FAIL, FETCH_LISTS_SUCCESS, LIST_CREATE_ERROR, LIST_NAME_CHANGE, RESET_ACTIVE_LIST, TOGGLE_CREATE_LIST_POPUP } = ListContainerActionTypes;
 
 export default function listContainerReducer(state = {
   lists:[],
@@ -36,6 +36,9 @@ export default function listContainerReducer(state = {
       return Object.assign({}, state, {
         listNameInputValue: payload.listNameInputValue,
       });
+
+    case RESET_ACTIVE_LIST:
+      return { ...state, activeList: '', activeListName: '' };
 
     case TOGGLE_CREATE_LIST_POPUP:
       return Object.assign({}, state, {

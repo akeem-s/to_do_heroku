@@ -23,8 +23,9 @@ export function sendLoginInfo(authInfo){
     const client = applyConverters(axios.create());
     return client.post('http://localhost:3500/users/find_or_create', authInfo)
       .then(({ data })=>{
+        const { id } = data;
         dispatch(loginSuccess({user: data}));
-        dispatch(fetchLists(data.id));
+        dispatch(fetchLists(id));
       })
       .catch((e)=>{
         dispatch(loginError({status: e.response.status, message: e.response.statusText}));
