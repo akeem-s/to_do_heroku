@@ -10,13 +10,13 @@ import Header from '../common/header/Header';
 import ErrorMessage from '../common/ErrorMessage';
 // actions
 import { fetchTasks } from '../listComponent/listComponent.actions';
-import { activateList, createList, deleteList, nameChange, toggleCreateListPopup } from './listContainer.actions.js';
+import { activateList, createList, nameChange, toggleCreateListPopup } from './listContainer.actions.js';
 
 export class ListContainer extends React.Component{
   constructor(props){
     super(props);
     this.activateList = this.activateList.bind(this);
-    this.deleteList = this.deleteList.bind(this);
+    // this.deleteList = this.deleteList.bind(this);
     this.fetchTasks = this.fetchTasks.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -40,9 +40,10 @@ export class ListContainer extends React.Component{
     dispatch(createList(payload));
   }
 
-  activateList(listKey, listName){
+  activateList( id, name ){
     const { dispatch } = this.props;
-    dispatch(activateList({activeList: listKey, activeListName: listName}));
+    dispatch(activateList({activeListName: name, activeListId: id}));
+    dispatch(fetchTasks({activeList: name, id}));
   }
 
   fetchTasks(listId){
@@ -50,15 +51,15 @@ export class ListContainer extends React.Component{
     dispatch(fetchTasks({listId, userId: id}));
   }
 
-  deleteList(key){
-    const { dispatch, listArray } = this.props;
-    const len = listArray.length;
-    for(var i = 0; i < len; i++){
-      if(listArray[i] && listArray[i].key === key){
-        dispatch(deleteList({listKey: i}));
-      }
-    }
-  }
+  // deleteList(key){
+  //   const { dispatch, listArray } = this.props;
+  //   const len = listArray.length;
+  //   for(var i = 0; i < len; i++){
+  //     if(listArray[i] && listArray[i].key === key){
+  //       dispatch(deleteList({listKey: i}));
+  //     }
+  //   }
+  // }
 
   renderError(){
     const { error } = this.props;
@@ -70,11 +71,12 @@ export class ListContainer extends React.Component{
   }
 
   renderListComponent(){
-    const { activeListName, activeList } = this.props;
-    if(activeListName){
+    const { activeListId, activeListName } = this.props;
+    if(activeListId){
       return <ListComponent
-        key={activeList}
-        name={activeListName}/>;
+        key={activeListId}
+        listName={activeListName}
+      />;
     }
     return null;
   }
@@ -132,18 +134,17 @@ export class ListContainer extends React.Component{
           </div>
           {this.renderError()}
           <aside className='listTabAside'>
-            {lists.map((list)=>{
+            {lists.map((list, i)=>{
               return <ListTab
+                key={i}
                 activateList={this.activateList}
                 fetchTasks={this.fetchTasks}
-                deleteList={this.deleteList}
-                listKey={list.id}
+                listId={list.id}
                 name={list.name}/>;
             })}
           </aside>
         </div>
 
-        {/* <div id="activeListContainer"> */}
         <div>
           {this.renderListComponent()}
         </div>
@@ -154,10 +155,10 @@ export class ListContainer extends React.Component{
 }
 
 function mapStateToProps(state) {
-  const {listContainerReducer: { activeList, activeListName, lists, listArray, listNameInputValue, showPopup }, loginReducer:{ user:{avatarUrl, username, email, id} }} = state;
+  const {listContainerReducer: { activeListId, activeListName, lists, listArray, listNameInputValue, showPopup }, loginReducer:{ user:{avatarUrl, username, email, id} }} = state;
 
   return {
-    activeList,
+    activeListId,
     activeListName,
     avatarUrl,
     email,

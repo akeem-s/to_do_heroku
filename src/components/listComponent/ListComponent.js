@@ -4,15 +4,15 @@ import React from 'react';
 import Task from './Task';
 //actions
 import { deleteList } from '../listContainer/listContainer.actions';
-import { deleteTask, handleSubmit, taskCreateError, taskNameChange, toggleTaskForm , updateActiveTasks} from './listComponent.actions';
+import { createTask, deleteTask, taskNameChange, toggleTaskForm , updateActiveTasks} from './listComponent.actions';
 
 export class ListComponent extends React.Component{
   constructor(props){
     super(props);
     this.handleTaskNameChange = this.handleTaskNameChange.bind(this);
     this.handleTaskFormSubmit = this.handleTaskFormSubmit.bind(this);
-    this.updateActiveTasks = this.updateActiveTasks.bind(this);
     this.toggleTaskForm = this.toggleTaskForm.bind(this);
+    this.updateActiveTasks = this.updateActiveTasks.bind(this);
     this.updateActiveTasks = this.updateActiveTasks.bind(this);
   }
 
@@ -27,16 +27,8 @@ export class ListComponent extends React.Component{
   }
 
   handleTaskFormSubmit(){
-    const { activeList, dispatch, taskName } = this.props;
-    if(taskName){
-      dispatch(handleSubmit({taskName: taskName, listId: activeList, completed: false, description: ''}));
-      this.updateActiveTasks();
-      document.getElementById('taskNameInput').value = '';
-    }
-    else {
-      let error = 'Task name cannot be blank';
-      dispatch(taskCreateError(error));
-    }
+    const { activeListId, dispatch, id, taskName } = this.props;
+    dispatch(createTask({listId: activeListId, userId: id, taskName}));
   }
 
   toggleTaskForm(){
@@ -95,10 +87,11 @@ export class ListComponent extends React.Component{
 }
 
 function mapStateToProps(state) {
-  const { listContainerReducer:{activeList, activeListName}, listComponentReducer:{showTaskForm, taskArray, taskName, activeTasks}, loginReducer:{user:{id}} } = state;
+  const { listContainerReducer:{activeList, activeListName, activeListId }, listComponentReducer:{showTaskForm, taskArray, taskName, activeTasks}, loginReducer:{user:{id}} } = state;
 
   return {
     activeList,
+    activeListId,
     activeListName,
     activeTasks,
     id,

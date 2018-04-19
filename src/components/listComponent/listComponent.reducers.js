@@ -1,13 +1,21 @@
 import { ListComponentActionTypes } from '../../ActionTypes.js';
-const { TASK_NAME_CHANGE, TASK_DETAILS_CHANGE, HANDLE_TASK_SUBMIT, TOGGLE_TASK_FORM, DELETE_TASK, RESET_ACTIVE_TASKS, UPDATE_ACTIVE_TASKS} = ListComponentActionTypes;
+const { FETCH_TASKS_FAIL, FETCH_TASKS_SUCCESS, RESET_ACTIVE_TASKS, TASK_NAME_CHANGE, TASK_DETAILS_CHANGE, TOGGLE_TASK_FORM, DELETE_TASK, UPDATE_ACTIVE_TASKS} = ListComponentActionTypes;
 
 export function listComponentReducer(state={
   activeTasks: [],
   taskArray:[],
   showTaskForm: false,
+  hasError: false,
 }, action){
   const { type, payload } = action;
   switch (type){
+    case FETCH_TASKS_FAIL:
+      return { ...state, hasError: true, message: payload.message, status: payload.status };
+
+    case FETCH_TASKS_SUCCESS:
+      console.log(payload);
+      return { ...state, activeTasks: payload.tasks};
+
     case TASK_NAME_CHANGE:
       return Object.assign({}, state, {
         taskName: payload.taskName,
@@ -18,12 +26,12 @@ export function listComponentReducer(state={
         taskDetails: payload.taskDetails,
       });
 
-    case HANDLE_TASK_SUBMIT:
-      state.taskArray.push(payload);
-      return Object.assign({}, state, {
-        taskName: '',
-        taskDetails: '',
-      });
+    // case HANDLE_TASK_SUBMIT:
+    //   state.taskArray.push(payload);
+    //   return Object.assign({}, state, {
+    //     taskName: '',
+    //     taskDetails: '',
+    //   });
 
     case TOGGLE_TASK_FORM:
       return Object.assign({}, state, {

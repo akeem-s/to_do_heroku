@@ -92,9 +92,8 @@ export function createList(payload){
     const client = applyConverters(axios.create());
     client.post(`http://localhost:3500/users/${id}/lists`, payload)
       .then((response)=>{
-        console.log(response);
         dispatch(createListSuccess());
-        dispatch(fetchLists(id));
+        dispatch(fetchLists({id}));
         dispatch(toggleCreateListPopup());
       })
       .catch((e)=>{
@@ -126,10 +125,11 @@ export function fetchLists(payload){
   return dispatch => {
     const client = applyConverters(axios.create());
     return client.get(`http://localhost:3500/users/${id}/lists`)
-      .then( (response)=>{
+      .then((response)=>{
         dispatch(fetchListsSuccess({lists: response.data}));
       })
-      .catch( (e)=>{
+      .catch((e)=>{
+        console.log(e);
         dispatch(fetchListsFail({status: e.response.status, message: e.response.statusText}));
       });
   };

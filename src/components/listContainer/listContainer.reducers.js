@@ -9,7 +9,7 @@ export default function listContainerReducer(state = {
   const { type, payload } = action;
   switch(type){
     case ACTIVATE_LIST:
-      return { ...state, activeList: payload.activeList, activeListName: payload.activeListName };
+      return { ...state, activeListId: payload.activeListId, activeListName: payload.activeListName };
 
     case CREATE_LIST_SUCCESS:
       return { ...state, hasError: false};
