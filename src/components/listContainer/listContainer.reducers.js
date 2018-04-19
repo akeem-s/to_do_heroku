@@ -1,37 +1,46 @@
+import { ListContainerActionTypes } from '../../ActionTypes.js';
+const { ACTIVATE_LIST, CREATE_LIST_SUCCESS, CREATE_LIST_FAIL, DELETE_LIST, FETCH_LISTS_FAIL, FETCH_LISTS_SUCCESS, LIST_CREATE_ERROR, LIST_NAME_CHANGE, RESET_ACTIVE_LIST, TOGGLE_CREATE_LIST_POPUP } = ListContainerActionTypes;
+
 export default function listContainerReducer(state = {
-  listArray:[],
+  lists:[],
   showPopup: false,
+  hasError: false,
 }, action){
   const { type, payload } = action;
   switch(type){
-    case 'ACTIVATE_LIST':
-      return Object.assign({}, state, {
-        activeList: payload.activeList,
-        activeListName: payload.activeListName,
-      });
+    case ACTIVATE_LIST:
+      return { ...state, activeListId: payload.activeListId, activeListName: payload.activeListName };
 
-    case 'DELETE_LIST':
+    case CREATE_LIST_SUCCESS:
+      return { ...state, hasError: false};
+
+    case CREATE_LIST_FAIL:
+      return { ...state, hasError: true, message: payload.message, status: payload.status };
+
+    case DELETE_LIST:
       state.listArray.splice(payload.listKey, 1);
       return Object.assign({}, state, {});
 
-    case 'HANDLE_SUBMIT':
-      state.listArray.push(payload);
-      return Object.assign({}, state, {
-        listName: '',
+    case FETCH_LISTS_FAIL:
+      return { ...state, hasError: true, message: payload.message, status: payload.status };
 
-      });
+    case FETCH_LISTS_SUCCESS:
+      return { ...state, lists: payload.lists, hasError: false };
 
-    case 'LIST_CREATE_ERROR':
+    case LIST_CREATE_ERROR:
       return Object.assign({}, state, {
         error: payload.error,
       });
 
-    case 'LIST_NAME_CHANGE':
+    case LIST_NAME_CHANGE:
       return Object.assign({}, state, {
-        listName: payload.listName,
+        listNameInputValue: payload.listNameInputValue,
       });
 
-    case 'TOGGLE_CREATE_LIST_POPUP':
+    case RESET_ACTIVE_LIST:
+      return { ...state, activeList: '', activeListName: '' };
+
+    case TOGGLE_CREATE_LIST_POPUP:
       return Object.assign({}, state, {
         showPopup: !state.showPopup,
       });

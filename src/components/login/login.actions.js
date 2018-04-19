@@ -1,6 +1,7 @@
 import axios from 'axios';
 import applyConverters from 'axios-case-converter';
 import { LoginActionTypes } from '../../ActionTypes.js';
+import { fetchLists } from '../listContainer/listContainer.actions';
 const { LOGIN_SUCCESS, LOGIN_ERROR } = LoginActionTypes;
 
 export function loginSuccess(payload){
@@ -20,9 +21,11 @@ export function loginError(payload){
 export function sendLoginInfo(authInfo){
   return dispatch => {
     const client = applyConverters(axios.create());
-    return client.get('http://localhost:3500/users/6')
+    return client.post('http://localhost:3500/users/find_or_create', authInfo)
       .then(({ data })=>{
+        const { id, uid, provider } = data;
         dispatch(loginSuccess({user: data}));
+        dispatch(fetchLists({id, uid, provider}));
       })
       .catch((e)=>{
         dispatch(loginError({status: e.response.status, message: e.response.statusText}));

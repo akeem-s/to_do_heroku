@@ -215,5 +215,7 @@ module.exports = {
     'space-unary-ops': 2,
     // require 2 space indentations; switch statements should also be indented
     indent: ['error', 2, { 'SwitchCase': 1 }],
+    // suggest using template literals instead of string concatenation
+    'prefer-template': "error",
   },
 }
